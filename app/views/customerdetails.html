@@ -2,10 +2,12 @@
   <form>
     <div class="form-group">
       <label for="customer">Klant</label>
-      <select class="form-control" id="customer">
-        <option>Martin</option>
-        <option>Feitze</option>
+      <select class="form-control" id="customer"  ng-model="vm.chosenCustomerDetail" ng-options="customerDetail.name for customerDetail in vm.customerDetails track by customerDetail.id" >
+        <option value="">Choose customer</option>
       </select>
+
+
+
     </div>
     <div class="form-group">
       <label for="telephone">Telephone Number</label>
