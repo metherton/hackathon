@@ -8,7 +8,7 @@
  * Controller of the inghackathonclientApp
  */
 angular.module('inghackathonclientApp')
-  .controller('CustomerDetailsCtrl', ['smsFactory', function (smsFactory) {
+  .controller('CustomerDetailsCtrl', ['smsFactory', 'feedbackFactory', function (smsFactory, feedbackFactory) {
 
     var vm = this;
 
@@ -17,9 +17,22 @@ angular.module('inghackathonclientApp')
       to: "0031624543741"
     };
 
-    vm.sendSms = function() {
+    vm.customerDetails = {
+      id: "1234567",
+      department: "ROSETTA",
+      channelType: "CALL",
+      corpKey: "DT10DW"
+    };
+
+    vm.sendFeedback = function() {
       console.log('send sms');
-      smsFactory.save(vm.smsMessage);
+      feedbackFactory.save(vm.customerDetails).$promise.then(function(feedbackResponse) {
+        vm.smsMessage.body += " " + feedbackResponse.url;
+        return smsFactory.save(vm.smsMessage);
+      }, function(error) {
+        console.log('there is an error');
+      });
+
     };
 
   }]);
