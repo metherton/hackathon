@@ -36,15 +36,25 @@ angular
 
     })
     // route for the aboutus page
-    //.state('app.sms', {
-    //  url:'sms',
-    //  views: {
-    //    'content@': {
-    //      templateUrl : 'views/sms.html',
-    //      controller  : 'SmsCtrl'
-    //    }
-    //  }
-    //})
+    .state('app.sms', {
+      url:'sms',
+      views: {
+        'content@': {
+          templateUrl : 'views/sms.html',
+          controller  : 'SmsCtrl'
+        }
+      }
+    })
+    .state('app.customerdetails', {
+      url:'customerdetails',
+      views: {
+        'content@': {
+          templateUrl : 'views/customerdetails.html',
+          controller  : 'CustomerDetailsCtrl',
+          controllerAs : 'vm'
+        }
+      }
+    })
     // route for the aboutus page
     .state('app.aboutus', {
       url:'aboutus',

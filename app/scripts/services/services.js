@@ -9,7 +9,7 @@ angular.module('inghackathonclientApp.services', ['ngResource'])
   //.factory('smsFactory', [function() {
 
 
-    return $resource(baseURL+"sms/:id");
- // return {};
+    return $resource(baseURL+"sms/:id", {},
+      {'save': {method: 'POST', headers: {'Content-Type':'application/json', 'Accept': 'application/json'} }});
 
   }]);

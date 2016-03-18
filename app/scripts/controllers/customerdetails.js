@@ -8,18 +8,18 @@
  * Controller of the inghackathonclientApp
  */
 angular.module('inghackathonclientApp')
-  .controller('SmsCtrl', ['smsFactory', function (smsFactory) {
+  .controller('CustomerDetailsCtrl', ['smsFactory', function (smsFactory) {
 
+    var vm = this;
 
+    vm.smsMessage = {
+      body: "",
+      to: "0031624543741"
+    };
 
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-
-    this.sendSms = function() {
+    vm.sendSms = function() {
       console.log('send sms');
+      smsFactory.save(vm.smsMessage);
     };
 
   }]);
