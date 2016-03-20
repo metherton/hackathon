@@ -24,7 +24,7 @@ angular.module('inghackathonclientApp')
     vm.customerDetails = customerDetailsFactory.query(function(response) {
        vm.customerDetails = response;
     }, function(error) {
-      console.log(error);
+      console.log(error + "ho");
     });
 
     //vm.customerDetails = {
