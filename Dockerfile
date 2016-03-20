@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json /usr/src/app/
 COPY bower.json /usr/src/app/
+RUN echo "hello"
 RUN npm install  && npm install bower -g && npm install gulp -g && bower install --allow-root && npm install gulp-cli -g
 
 # Bundle app source
