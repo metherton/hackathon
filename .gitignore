@@ -3,7 +3,6 @@
 .gitattributes
 .idea/
 .jscsrc
-.jshintrc
 .travis.yml
 .yo-rc.json
 /node_modules
