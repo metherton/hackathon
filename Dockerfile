@@ -13,6 +13,7 @@ RUN npm install  && npm install bower -g && npm install gulp -g && bower install
 
 # Bundle app source
 COPY . /usr/src/app
+COPY bower_componets /usr/src/app/bower_components
 
 EXPOSE 9000
 CMD [ "gulp", "serve" ]
