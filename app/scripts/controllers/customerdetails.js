@@ -15,8 +15,8 @@ angular.module('inghackathonclientApp')
     vm.chosenCustomerDetail = {};
 
     vm.smsMessage = {
-      body: "",
-      to: "0031624543741"
+      message: "",
+      to: "+31624543741"
     };
 
     vm.customerDetails = [];
@@ -37,7 +37,7 @@ angular.module('inghackathonclientApp')
     vm.sendFeedback = function() {
       console.log('send sms');
       feedbackFactory.save(vm.chosenCustomerDetail).$promise.then(function(feedbackResponse) {
-        vm.smsMessage.body += " " + "Hi " + vm.chosenCustomerDetail.name + " please give us your feedback at " + feedbackResponse.url;
+        vm.smsMessage.message += " " + "Hi " + vm.chosenCustomerDetail.name + " please give us your feedback at " + feedbackResponse.url;
         return smsFactory.save(vm.smsMessage);
       }, function(error) {
         console.log('there is an error');
