@@ -13,8 +13,12 @@ angular.module('inghackathonclientApp')
     var vm = this;
 
     vm.chosenCustomerDetail = {};
+
     vm.chosenCustomerDetail.department = "Hoofddorp";
-    vm.chosenCustomerDetail.question = "Hoe vond u uw bezoek aan het ING kantoor?";
+    vm.chosenCustomerDetail.question = "You visited an ING branch office";
+
+    vm.chosenCustomerDetail.department = "24hCodING";
+    vm.chosenCustomerDetail.question = "You participated in the 24hCodING";
 
     vm.smsMessage = {
       message: "",
@@ -30,12 +34,6 @@ angular.module('inghackathonclientApp')
       console.log(error + "ho");
     });
 
-    //vm.customerDetails = {
-    //  id: "1234567",
-    //  department: "ROSETTA",
-    //  channelType: "CALL",
-    //  corpKey: "DT10DW"
-    //};
 
     vm.sendFeedback = function() {
       vm.chosenCustomerDetail.to = vm.chosenCustomerDetail.customerObject.telephone;
@@ -43,9 +41,16 @@ angular.module('inghackathonclientApp')
 
       //vm.smsMessage.to = vm.chosenCustomerDetail.to
 
-      feedbackFactory.save(vm.chosenCustomerDetail).$promise.then(function(feedbackResponse) {
+      var newCustomer = {};
 
-        vm.smsMessage.message = "Hallo " + vm.chosenCustomerDetail.name + ", zou je ons feedback geven over je kantoorbezoek via http://ing-smilingdx.rhcloud.com/smile/" + feedbackResponse._id + " ";
+      newCustomer.name = vm.chosenCustomerDetail.name;
+      newCustomer.to = vm.chosenCustomerDetail.to;
+      newCustomer.departmentId = vm.chosenCustomerDetail.department;
+      newCustomer.question = vm.chosenCustomerDetail.question;
+
+      feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
+        console.log(feedbackResponse);
+        vm.smsMessage.message = "Hallo " + newCustomer.name + ", zou je ons feedback geven via " + feedbackResponse.link + " ";
         //console.log(' - message ' + vm.smsMessage.message);
         //return smsFactory.save(vm.smsMessage);
       }, function(error) {
@@ -59,8 +64,34 @@ angular.module('inghackathonclientApp')
     };
 
     vm.sendAll = function() {
-      vm.sendSms();
       vm.sendFeedback();
+      vm.sendSms();
     };
+
+
+    vm.processAllCustomers = function(){
+      var newBulkArray = [];
+
+      for (var i = 0; i < vm.customerDetails.length; i++) {
+        //console.log(vm.customerDetails[i]);
+
+        var newCustomer = {};
+
+        newCustomer.name = vm.customerDetails[i].name;
+        newCustomer.to = vm.customerDetails[i].to;
+        newCustomer.department = vm.chosenCustomerDetail.department;
+        newCustomer.question = vm.chosenCustomerDetail.question;
+
+        feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
+          newCustomer.message = "Hallo " + newCustomer.name + ", zou je ons feedback geven via " + newCustomer.link + " ";
+
+          newBulkArray.push(newCustomer);
+        }, function(error) {
+          console.log('Skipping customer: ' + newCustomer);
+        });
+
+      }
+      console.log('Result: ' + newBulkArray);
+    }
 
   }]);
