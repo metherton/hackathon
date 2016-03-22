@@ -8,7 +8,7 @@
  * Controller of the inghackathonclientApp
  */
 angular.module('inghackathonclientApp')
-  .controller('CustomerDetailsCtrl', ['smsFactory', 'feedbackFactory', 'customerDetailsFactory', function (smsFactory, feedbackFactory, customerDetailsFactory) {
+  .controller('CustomerDetailsCtrl', ['smsFactory', 'bulkSmsFactory','feedbackFactory', 'customerDetailsFactory', function (smsFactory, bulkSmsFactory, feedbackFactory, customerDetailsFactory) {
 
     var vm = this;
 
@@ -35,7 +35,7 @@ angular.module('inghackathonclientApp')
     });
 
 
-    vm.sendFeedback = function() {
+    vm.sendFeedback = function(alsoSendSms) {
       vm.chosenCustomerDetail.to = vm.chosenCustomerDetail.customerObject.telephone;
       vm.chosenCustomerDetail.name = vm.chosenCustomerDetail.customerObject.name;
 
@@ -50,9 +50,10 @@ angular.module('inghackathonclientApp')
 
       feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
         console.log(feedbackResponse);
-        vm.smsMessage.message = "Hallo " + newCustomer.name + ", zou je ons feedback geven via " + feedbackResponse.link + " ";
-        //console.log(' - message ' + vm.smsMessage.message);
-        //return smsFactory.save(vm.smsMessage);
+        vm.smsMessage.message = "Hello " + newCustomer.name + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
+        if(alsoSendSms) {
+          vm.sendSms();
+        }
       }, function(error) {
         console.log('there is an error with the feedback api.');
       });
@@ -63,35 +64,49 @@ angular.module('inghackathonclientApp')
       smsFactory.save(vm.smsMessage);
     };
 
-    vm.sendAll = function() {
-      vm.sendFeedback();
-      vm.sendSms();
-    };
-
+    var bulkSmsArray;
 
     vm.processAllCustomers = function(){
-      var newBulkArray = [];
-
-      for (var i = 0; i < vm.customerDetails.length; i++) {
-        //console.log(vm.customerDetails[i]);
-
-        var newCustomer = {};
-
-        newCustomer.name = vm.customerDetails[i].name;
-        newCustomer.to = vm.customerDetails[i].to;
-        newCustomer.department = vm.chosenCustomerDetail.department;
-        newCustomer.question = vm.chosenCustomerDetail.question;
-
-        feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
-          newCustomer.message = "Hallo " + newCustomer.name + ", zou je ons feedback geven via " + newCustomer.link + " ";
-
-          newBulkArray.push(newCustomer);
-        }, function(error) {
-          console.log('Skipping customer: ' + newCustomer);
-        });
-
+      if (vm.customerDetails.length > 0) {
+        //start
+        bulkSmsArray = [];
+        vm.processNextCustomer(0);
       }
-      console.log('Result: ' + newBulkArray);
     }
+
+    vm.processNextCustomer = function(id){
+      var newCustomer = {};
+
+      newCustomer.name = vm.customerDetails[id].name;
+      newCustomer.to = vm.customerDetails[id].telephone;
+      console.log(newCustomer.to);
+      newCustomer.departmentId = vm.chosenCustomerDetail.department;
+      newCustomer.question = vm.chosenCustomerDetail.question;
+
+      feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
+        var newSms = {};
+
+        newSms.to = newCustomer.to;
+        newSms.message = "Hello " + newCustomer.name + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
+
+        bulkSmsArray.push(newSms);
+      }, function(error) {
+        console.log('Skipping customer: ' + newCustomer);
+      }).finally(function(){
+        var nextId = id + 1;
+
+        if (nextId < 3) { //if (nextId < vm.customerDetails.length) {
+          vm.processNextCustomer(nextId);
+        } else if(nextId == 3){ //} else if(nextId == vm.customerDetails.length){
+          // end of the line, send sms
+          console.log('Result: ' + bulkSmsArray);
+          for(var i=0; i< bulkSmsArray.length; i++){
+            console.log('Object: ' + bulkSmsArray[i].message);
+          }
+          bulkSmsFactory.save(bulkSmsArray).$promise.then(function(response) {});
+        }
+      });
+    }
+
 
   }]);
