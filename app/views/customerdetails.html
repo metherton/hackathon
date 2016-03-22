@@ -1,27 +1,37 @@
 <div class="container-fluid">
   <form>
+    <div class="row text-right">
+      <button ng-click="vm.sendAll()" type="submit" class="btn btn-default">Save</button>
+    </div>
     <div class="form-group">
       <label for="customer">Klant</label>
-      <select class="form-control" id="customer"  ng-model="vm.chosenCustomerDetail" ng-options="customerDetail.name for customerDetail in vm.customerDetails track by customerDetail.id" >
+      <select class="form-control" id="customer" ng-model="vm.chosenCustomerDetail.customerObject" ng-options="customerDetail.name for customerDetail in vm.customerDetails track by customerDetail.id" >
         <option value="">Choose customer</option>
       </select>
-
-
-
     </div>
     <div class="form-group">
-      <label for="telephone">Telephone Number</label>
-      <input class="form-control" ng-model="vm.smsMessage.to" id="telephone" placeholder="Telephone Number">
+      <label for="telephone">Telefoonnummer</label>
+      <input class="form-control" ng-model="vm.chosenCustomerDetail.customerObject.telephone" id="telephone" placeholder="Telephone Number">
     </div>
+    <div class="form-group">
+      <label for="message">Event</label>
+      <textarea class="form-control" ng-model="vm.chosenCustomerDetail.department" id="department" placeholder=""></textarea>
+    </div>
+    <div class="form-group">
+      <label for="message">Vraag</label>
+      <textarea class="form-control" ng-model="vm.chosenCustomerDetail.question" id="question" placeholder="question"></textarea>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" checked> Request Feedback from customer
+      </label>
+    </div>
+    <button ng-click="vm.sendFeedback()" type="submit" class="btn btn-default">Save Feedback</button>
+
     <div class="form-group">
       <label for="message">Message</label>
       <textarea class="form-control" ng-model="vm.smsMessage.message" id="message" placeholder="Message"></textarea>
     </div>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" ng-model="vm.chosenCustomerDetail.feedbackEnabled"> Request Feedback from customer
-      </label>
-    </div>
-    <button ng-click="vm.sendFeedback()" type="submit" class="btn btn-default">Save Feedback</button>
+    <button ng-click="vm.sendSms()" type="submit" class="btn btn-default">Send SMS</button>
   </form>
 </div>

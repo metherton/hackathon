@@ -4,7 +4,8 @@ angular.module('inghackathonclientApp.services', ['ngResource'])
   //.constant("baseURL","http://192.168.0.101:3000/")
   .constant("smsURL","http://141.138.139.81:8080/")
  // .constant("baseURL","http://localhost:8080/")
-  .constant("feedbackURL","http://141.138.139.81:9050/")
+  .constant("feedbackURL","http://141.138.139.81:9050/feedback/")
+ // .constant("feedbackURL","http://ing-smilingdx.rhcloud.com/api/smileys/")
   .constant("customerDetailsURL","http://141.138.139.81:3000/")
   //.constant("baseURL","http://141.138.139.81:3000/")
   .factory('feedbackFactory', ['$resource', 'feedbackURL', function($resource,feedbackURL) {
@@ -12,7 +13,7 @@ angular.module('inghackathonclientApp.services', ['ngResource'])
     //.factory('smsFactory', [function() {
 
 
-    return $resource(feedbackURL+"feedback/:id", {},
+    return $resource(feedbackURL+":id", {},
       {'save': {method: 'POST', headers: {'Content-Type':'application/json', 'Accept': 'application/json'} }});
 
   }])
