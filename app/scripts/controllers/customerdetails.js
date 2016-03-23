@@ -60,14 +60,14 @@ angular.module('inghackathonclientApp')
 
       var newCustomer = {};
 
-      newCustomer.name = vm.chosenCustomerDetail.name;
+      newCustomer.customerId = vm.chosenCustomerDetail.name;
       newCustomer.to = vm.chosenCustomerDetail.to;
       newCustomer.departmentId = vm.chosenCustomerDetail.department;
       newCustomer.question = vm.chosenCustomerDetail.question;
 
       feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
         console.log(feedbackResponse);
-        vm.smsMessage.message = "Hello " + newCustomer.name + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
+        vm.smsMessage.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
         if(alsoSendSms) {
           vm.sendSms();
         }
@@ -110,7 +110,7 @@ angular.module('inghackathonclientApp')
     vm.processNextCustomer = function(id){
       var newCustomer = {};
 
-      newCustomer.name = vm.customerDetails[id].name;
+      newCustomer.customerId = vm.customerDetails[id].name;
       newCustomer.to = vm.customerDetails[id].telephone;
       console.log(newCustomer.to);
       newCustomer.departmentId = vm.chosenCustomerDetail.department;
@@ -120,7 +120,7 @@ angular.module('inghackathonclientApp')
         var newSms = {};
 
         newSms.to = newCustomer.to;
-        newSms.message = "Hello " + newCustomer.name + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
+        newSms.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
 
         bulkSmsArray.push(newSms);
       }, function(error) {
