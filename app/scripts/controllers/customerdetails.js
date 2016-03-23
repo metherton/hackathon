@@ -104,7 +104,9 @@ angular.module('inghackathonclientApp')
       });
       vm.bulkSmsRecipients = "";
     };
-    var BOMBARD = 33;  // should be 0
+
+    var BOMBARD = 0;  // should be 0
+
     vm.bombard = BOMBARD;
 
     vm.processNextCustomer = function(id){
@@ -112,9 +114,14 @@ angular.module('inghackathonclientApp')
 
       newCustomer.customerId = vm.customerDetails[id].name;
       newCustomer.to = vm.customerDetails[id].telephone;
-      console.log(newCustomer.to);
       newCustomer.departmentId = vm.chosenCustomerDetail.department;
       newCustomer.question = vm.chosenCustomerDetail.question;
+
+      var correctGroup = false;
+
+      if(vm.chosenGroup.name == vm.customerDetails[id].group){
+        correctGroup = true;
+      }
 
       feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
         var newSms = {};
@@ -122,7 +129,9 @@ angular.module('inghackathonclientApp')
         newSms.to = newCustomer.to;
         newSms.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
 
-        bulkSmsArray.push(newSms);
+        if(correctGroup) {
+          bulkSmsArray.push(newSms);
+        }
       }, function(error) {
         console.log('Skipping customer: ' + newCustomer);
       }).finally(function(){
