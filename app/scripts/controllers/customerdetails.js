@@ -109,6 +109,7 @@ angular.module('inghackathonclientApp')
 
     vm.bombard = BOMBARD;
 
+
     vm.processNextCustomer = function(id){
       var newCustomer = {};
 
@@ -120,21 +121,33 @@ angular.module('inghackathonclientApp')
       var correctGroup = false;
 
       if(vm.chosenGroup.name == vm.customerDetails[id].group){
-        correctGroup = true;
+        // correctGroup = true;
+        feedbackFactory.save(newCustomer).$promise.then(succesFunc(newCustomer), errorFunc(newCustomer)).finally(finallyFunc(id));
+      } else {
+        //correctGroup = false;
+        finallyFunc(id)();
       }
+    }
 
-      feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
+    function succesFunc(newCustomer){
+      return function(feedbackResponse) {
         var newSms = {};
 
         newSms.to = newCustomer.to;
         newSms.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
 
-        if(correctGroup) {
-          bulkSmsArray.push(newSms);
-        }
-      }, function(error) {
+        bulkSmsArray.push(newSms);
+      }
+    }
+
+    function errorFunc(newCustomer) {
+      return function (error) {
         console.log('Skipping customer: ' + newCustomer);
-      }).finally(function(){
+      }
+    }
+
+    function finallyFunc(id) {
+      return function(){
         var nextId = id + 1;
         vm.bulkProcessingText = " Busy with retrieving feedback link " + bulkSmsArray.length + " of " + (vm.customerDetails.length * (1+BOMBARD)) + "...";
 
@@ -148,16 +161,17 @@ angular.module('inghackathonclientApp')
           vm.processNextCustomer(nextId);
         } else if(nextId == vm.customerDetails.length){
           // end of the line, send sms
-          console.log('Result: ' + bulkSmsArray);
+          console.log('Result');
           vm.bulkSmsRecipients = "";
           for(var i=0; i< bulkSmsArray.length; i++){
             vm.bulkSmsRecipients += bulkSmsArray[i].to + "\n";
-            console.log('Object: ' + bulkSmsArray[i].message);
+            //console.log('Object: ' + bulkSmsArray[i].message);
           }
 
         }
-      });
+      }
     }
+
 
 
   }]);
