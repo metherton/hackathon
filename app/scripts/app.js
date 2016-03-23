@@ -61,7 +61,8 @@ angular
       views: {
         'content@': {
           templateUrl : 'views/about.html',
-          controller  : 'AboutCtrl'
+          controller  : 'CustomerDetailsCtrl',
+          controllerAs : 'vm'
         }
       }
     });

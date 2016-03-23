@@ -70,9 +70,25 @@ angular.module('inghackathonclientApp')
       if (vm.customerDetails.length > 0) {
         //start
         bulkSmsArray = [];
+        vm.bulkSmsRecipients = "";
         vm.processNextCustomer(0);
       }
     }
+
+    vm.sendSmsBulk = function() {
+      bulkSmsFactory.save(bulkSmsArray).$promise.then(function(response) {
+        var nrOfMessagesSent = 0;
+        for(var i=0; i< response.length; i++){
+          if(response[i].status == "OK") {
+            nrOfMessagesSent++;
+          }
+        }
+        vm.bulkResultText = " " + nrOfMessagesSent + " messages sent";
+      });
+      vm.bulkSmsRecipients = "";
+    };
+    var BOMBARD = 33;  // should be 0
+    vm.bombard = BOMBARD;
 
     vm.processNextCustomer = function(id){
       var newCustomer = {};
@@ -94,16 +110,25 @@ angular.module('inghackathonclientApp')
         console.log('Skipping customer: ' + newCustomer);
       }).finally(function(){
         var nextId = id + 1;
+        vm.bulkProcessingText = " Busy with retrieving feedback link " + bulkSmsArray.length + " of " + (vm.customerDetails.length * (1+BOMBARD)) + "...";
 
-        if (nextId < 3) { //if (nextId < vm.customerDetails.length) {
+        // Temp to bombard
+        if(nextId == vm.customerDetails.length && vm.bombard > 0){
+          vm.bombard--;
+          nextId = 0;
+        }
+
+        if (nextId < vm.customerDetails.length) {
           vm.processNextCustomer(nextId);
-        } else if(nextId == 3){ //} else if(nextId == vm.customerDetails.length){
+        } else if(nextId == vm.customerDetails.length){
           // end of the line, send sms
           console.log('Result: ' + bulkSmsArray);
+          vm.bulkSmsRecipients = "";
           for(var i=0; i< bulkSmsArray.length; i++){
+            vm.bulkSmsRecipients += bulkSmsArray[i].to + "\n";
             console.log('Object: ' + bulkSmsArray[i].message);
           }
-          bulkSmsFactory.save(bulkSmsArray).$promise.then(function(response) {});
+
         }
       });
     }
