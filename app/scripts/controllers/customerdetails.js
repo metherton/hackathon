@@ -12,6 +12,13 @@ angular.module('inghackathonclientApp')
 
     var vm = this;
 
+    vm.groups = [
+      {name: "group1",
+       id: 1},
+      {name: "group2",
+      id: 2}
+    ];
+
     vm.chosenCustomerDetail = {};
 
     vm.chosenCustomerDetail.department = "Hoofddorp";
