@@ -11,7 +11,7 @@
       <label for="message">Recipients</label>&nbsp;&nbsp;<span style="color: green; font-size: large">{{vm.bulkProcessingText}}</span>
       <textarea readonly rows=20 class="form-control" ng-model="vm.bulkSmsRecipients" id="message" placeholder="No recipients"></textarea>
     </div>
-    <button ng-click="vm.processAllCustomers()" type="submit" class="btn btn-default">Request feedback in bulk</button>
+    <button ng-disabled="!vm.chosenGroup.name" ng-click="vm.processAllCustomers()" type="submit" class="btn btn-default">Request feedback in bulk</button>
     <button ng-disabled="!vm.bulkSmsRecipients" ng-click="vm.sendSmsBulk()" type="submit" class="btn btn-primary">Send SMS to all customers</button>
     <span style="color: green; font-size: large">{{vm.bulkResultText}}</span>
   </form>

@@ -81,17 +81,6 @@ angular.module('inghackathonclientApp')
       smsFactory.save(vm.smsMessage);
     };
 
-    var bulkSmsArray;
-
-    vm.processAllCustomers = function(){
-      if (vm.customerDetails.length > 0) {
-        //start
-        bulkSmsArray = [];
-        vm.bulkSmsRecipients = "";
-        vm.processNextCustomer(0);
-      }
-    }
-
     vm.sendSmsBulk = function() {
       bulkSmsFactory.save(bulkSmsArray).$promise.then(function(response) {
         var nrOfMessagesSent = 0;
@@ -105,10 +94,25 @@ angular.module('inghackathonclientApp')
       vm.bulkSmsRecipients = "";
     };
 
-    var BOMBARD = 0;  // should be 0
+    var bulkSmsArray;
+    var nrOfFeedbackRequests;
 
-    vm.bombard = BOMBARD;
+    vm.processAllCustomers = function(){
+      nrOfFeedbackRequests = 0;
 
+      for(var i=0; i< vm.customerDetails.length; i++){
+        if(vm.chosenGroup.name == vm.customerDetails[i].group){
+          nrOfFeedbackRequests++;
+        }
+      }
+
+      if (vm.customerDetails.length > 0) {
+        //start
+        bulkSmsArray = [];
+        vm.bulkSmsRecipients = "";
+        vm.processNextCustomer(0);
+      }
+    }
 
     vm.processNextCustomer = function(id){
       var newCustomer = {};
@@ -149,13 +153,13 @@ angular.module('inghackathonclientApp')
     function finallyFunc(id) {
       return function(){
         var nextId = id + 1;
-        vm.bulkProcessingText = " Busy with retrieving feedback link " + bulkSmsArray.length + " of " + (vm.customerDetails.length * (1+BOMBARD)) + "...";
+        vm.bulkProcessingText = " Busy with retrieving feedback link " + bulkSmsArray.length + " of " + nrOfFeedbackRequests + "...";
 
-        // Temp to bombard
-        if(nextId == vm.customerDetails.length && vm.bombard > 0){
-          vm.bombard--;
-          nextId = 0;
-        }
+        //// Temp to bombard
+        //if(nextId == vm.customerDetails.length && vm.bombard > 0){
+        //  vm.bombard--;
+        //  nextId = 0;
+        //}
 
         if (nextId < vm.customerDetails.length) {
           vm.processNextCustomer(nextId);
@@ -168,6 +172,7 @@ angular.module('inghackathonclientApp')
             //console.log('Object: ' + bulkSmsArray[i].message);
           }
 
+          vm.bulkProcessingText = " Processed feedback link for " + bulkSmsArray.length + " of " + nrOfFeedbackRequests + "...";
         }
       }
     }
