@@ -13,6 +13,14 @@ angular.module('inghackathonclientApp')
     var vm = this;
 
     vm.groups = [
+      {name: "leeuwarden",
+        id: 8},
+      {name: "developers",
+        id: 9},
+      {name: "rutger",
+        id: 10},
+      {name: "twilio",
+        id: 11},
       {name: "TestGroup",
         id: 1},
       {name: "SMILingDX",
