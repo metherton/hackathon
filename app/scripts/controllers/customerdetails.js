@@ -12,38 +12,50 @@ angular.module('inghackathonclientApp')
 
     var vm = this;
 
+    //vm.groups = [
+    //  {name: "leeuwarden",
+    //    id: 8},
+    //  {name: "developers",
+    //    id: 9},
+    //  {name: "rutger",
+    //    id: 10},
+    //  {name: "twilio",
+    //    id: 11},
+    //  {name: "TestGroup",
+    //    id: 1},
+    //  {name: "SMILingDX",
+    //    id: 2},
+    //  {name: "Subjury1",
+    //    id: 3},
+    //  {name: "Subjury2",
+    //    id: 4},
+    //  {name: "Subjury3",
+    //    id: 5},
+    //  {name: "24hCodING",
+    //  id: 6},
+    //  {name: "ExtraGroup",
+    //    id: 7}
+    //];
+
     vm.groups = [
-      {name: "leeuwarden",
-        id: 8},
-      {name: "developers",
-        id: 9},
-      {name: "rutger",
-        id: 10},
-      {name: "twilio",
-        id: 11},
-      {name: "TestGroup",
+      {name: "mkbdemo",
         id: 1},
-      {name: "SMILingDX",
+      {name: "demo",
         id: 2},
-      {name: "Subjury1",
-        id: 3},
-      {name: "Subjury2",
-        id: 4},
-      {name: "Subjury3",
-        id: 5},
-      {name: "24hCodING",
-      id: 6},
-      {name: "ExtraGroup",
-        id: 7}
+      {name: "test_feitze",
+        id: 3}
     ];
 
     vm.chosenCustomerDetail = {};
 
-    vm.chosenCustomerDetail.department = "Hoofddorp";
-    vm.chosenCustomerDetail.question = "You visited an ING branch office";
+    //vm.chosenCustomerDetail.department = "Hoofddorp";
+    //vm.chosenCustomerDetail.question = "You visited an ING branch office";
+    //
+    //vm.chosenCustomerDetail.department = "24hCodING";
+    //vm.chosenCustomerDetail.question = "You participated in the 24hCodING";
 
-    vm.chosenCustomerDetail.department = "24hCodING";
-    vm.chosenCustomerDetail.question = "You participated in the 24hCodING";
+    vm.chosenCustomerDetail.department = "MKBdag";
+    vm.chosenCustomerDetail.question = "You participated in the Mangement dag MKB";
 
     vm.smsMessage = {
       message: "",
@@ -75,7 +87,9 @@ angular.module('inghackathonclientApp')
 
       feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
         console.log(feedbackResponse);
-        vm.smsMessage.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
+        //vm.smsMessage.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
+        vm.smsMessage.message = "Dear " + newCustomer.customerId + ", today you were part of the management dag MKB. Please use: " + feedbackResponse.link;
+
         if(alsoSendSms) {
           vm.sendSms();
         }
@@ -146,8 +160,7 @@ angular.module('inghackathonclientApp')
         var newSms = {};
 
         newSms.to = newCustomer.to;
-        newSms.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
-
+        newSms.message = "Dear " + newCustomer.customerId + ", today you were part of the management dag MKB. Please use: " + feedbackResponse.link;
         bulkSmsArray.push(newSms);
       }
     }
