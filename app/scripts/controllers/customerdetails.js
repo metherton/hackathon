@@ -38,12 +38,10 @@ angular.module('inghackathonclientApp')
     //];
 
     vm.groups = [
-      {name: "mkbdemo",
+      {name: "feedbackcommunity",
         id: 1},
-      {name: "demo",
-        id: 2},
-      {name: "test_feitze",
-        id: 3}
+      {name: "demotest",
+        id: 2}
     ];
 
     vm.chosenCustomerDetail = {};
@@ -54,8 +52,8 @@ angular.module('inghackathonclientApp')
     //vm.chosenCustomerDetail.department = "24hCodING";
     //vm.chosenCustomerDetail.question = "You participated in the 24hCodING";
 
-    vm.chosenCustomerDetail.department = "MKBdag";
-    vm.chosenCustomerDetail.question = "You participated in the Mangement dag MKB";
+    vm.chosenCustomerDetail.department = "feedbackcommunitydemo";
+    vm.chosenCustomerDetail.question = "You attended the demo of Online Community & Feedback";
 
     vm.smsMessage = {
       message: "",
@@ -88,7 +86,7 @@ angular.module('inghackathonclientApp')
       feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
         console.log(feedbackResponse);
         //vm.smsMessage.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
-        vm.smsMessage.message = "Dear " + newCustomer.customerId + ", today you were part of the management dag MKB. Please use: " + feedbackResponse.link;
+        vm.smsMessage.message = "Dear " + newCustomer.customerId + ", today you attended our SMILingDX demo. Please use: " + feedbackResponse.link;
 
         if(alsoSendSms) {
           vm.sendSms();
@@ -160,7 +158,7 @@ angular.module('inghackathonclientApp')
         var newSms = {};
 
         newSms.to = newCustomer.to;
-        newSms.message = "Dear " + newCustomer.customerId + ", today you were part of the management dag MKB. Please use: " + feedbackResponse.link;
+        newSms.message = "Dear " + newCustomer.customerId + ", today you attended our SMILingDX demo. Please use: " + feedbackResponse.link;
         bulkSmsArray.push(newSms);
       }
     }
