@@ -2,7 +2,7 @@
 
 angular.module('inghackathonclientApp.services', ['ngResource'])
   //.constant("baseURL","http://192.168.0.101:3000/")
-  .constant("smsURL", "http://141.138.139.81:8080/")
+  .constant("smsURL", "http://141.138.139.81:8081/")
   // .constant("baseURL","http://localhost:8080/")
   // .constant("feedbackURL","http://141.138.139.81:9050/feedback/")
   .constant("feedbackURL", "http://ing-smilingdx.rhcloud.com/api/smileys/")
