@@ -38,7 +38,7 @@ angular.module('inghackathonclientApp')
     //];
 
     vm.groups = [
-      {name: "lionsden",
+      {name: "hypotheken",
         id: 1},
       {name: "demo",
         id: 2}
@@ -52,8 +52,8 @@ angular.module('inghackathonclientApp')
     //vm.chosenCustomerDetail.department = "24hCodING";
     //vm.chosenCustomerDetail.question = "You participated in the 24hCodING";
 
-    vm.chosenCustomerDetail.department = "lionsden";
-    vm.chosenCustomerDetail.question = "You just met the SMILingDX";
+    vm.chosenCustomerDetail.department = "hypotheken";
+    vm.chosenCustomerDetail.question = "You visited the quarterly meeting";
 
     vm.smsMessage = {
       message: "",
@@ -86,7 +86,7 @@ angular.module('inghackathonclientApp')
       feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
         console.log(feedbackResponse);
         //vm.smsMessage.message = "Hello " + newCustomer.customerId + ", could you provide feedback? Please use: " + feedbackResponse.link + " Regards, ING ";
-        vm.smsMessage.message = "Dear " + newCustomer.customerId + ", you just met the SMILingDX. Please show us your smile by: " + feedbackResponse.link;
+        vm.smsMessage.message = "Dear " + newCustomer.customerId + ", you visited the hypotheken tribe meeting. Leave your smile: " + feedbackResponse.link;
 
         if(alsoSendSms) {
           vm.sendSms();
@@ -158,7 +158,7 @@ angular.module('inghackathonclientApp')
         var newSms = {};
 
         newSms.to = newCustomer.to;
-        newSms.message = "Dear " + newCustomer.customerId + ", you just met the SMILingDX. Please show us your smile by: " + feedbackResponse.link;
+        newSms.message = "Dear " + newCustomer.customerId + ", you visited the hypotheken tribe meeting. Leave your smile: " + feedbackResponse.link;
         bulkSmsArray.push(newSms);
       }
     }
