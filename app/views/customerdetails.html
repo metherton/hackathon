@@ -6,7 +6,7 @@
       <input class="form-control" ng-model="searchText" id="searchname" placeholder="Search for Customer">
     </div>
     <div class="form-group">
-      <label for="customer">Customer</label>
+      <label for="customer">Customer (from customerdatabase)</label>
       <select class="form-control" id="customer" ng-model="vm.chosenCustomerDetail.customerObject" ng-options="customerDetail.name for customerDetail in vm.customerDetails | filter:searchText track by customerDetail.id" >
         <option value="">Choose customer</option>
       </select>
