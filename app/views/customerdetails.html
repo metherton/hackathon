@@ -1,31 +1,59 @@
+<header class="jumbotron" style="padding-top: 0px; padding-bottom: 0px">
+  <img src="images/smile.png" class="img-responsive">
+</header>
+
 <div class="container-fluid">
   <form>
-
     <div class="form-group">
-      <label for="telephone">Filter customers</label>
-      <input class="form-control" ng-model="searchText" id="searchname" placeholder="Search for Customer">
+      <label for="telephone">Klantnaam</label> <i><span style="color: gray;">(alleen gebruikt voor verzenden sms)</span></i>
+      <input class="form-control" ng-model="vm.customerData.privateData.name" id="name" placeholder="Voornaam">
     </div>
     <div class="form-group">
-      <label for="customer">Customer (from customerdatabase)</label>
-      <select class="form-control" id="customer" ng-model="vm.chosenCustomerDetail.customerObject" ng-options="customerDetail.name for customerDetail in vm.customerDetails | filter:searchText track by customerDetail.id" >
-        <option value="">Choose customer</option>
-      </select>
+      <label for="telephone">Geslacht</label>
+	  <select name="formGender" class="form-control" ng-model="vm.customerData.gender" id="gender">
+		<option value="">Selecteer...</option>
+		<option value="M">Man</option>
+		<option value="V">Vrouw</option>
+	  </select>
+      <!--<input class="form-control" ng-model="vm.customerData.gender" id="gender" placeholder="Man of Vrouw">-->
     </div>
     <div class="form-group">
-      <label for="telephone">Phonenumber</label>
-      <input class="form-control" ng-model="vm.chosenCustomerDetail.customerObject.telephone" id="telephone" placeholder="Phonenumber">
+      <label for="telephone">Leeftijdscategorie</label>
+	  <select name="formGender" class="form-control" ng-model="vm.customerData.ageBracket" id="age">
+		<option value="">Selecteer...</option>
+		<option value="<18">Jonger dan 18 jaar</option>
+		<option value="18-29">18 tot 29 jaar</option>
+		<option value="30-39">30 tot 39 jaar</option>
+		<option value="40-49">40 tot 49 jaar</option>
+		<option value="50-59">50 tot 59 jaar</option>
+		<option value="60+">Ouder dan 60 jaar</option>
+	  </select>
+      <!--<input class="form-control" ng-model="vm.customerData.ageBracket" id="age" placeholder="20-30">-->
     </div>
     <div class="form-group">
-      <label for="message">Event</label>
-      <textarea class="form-control" ng-model="vm.chosenCustomerDetail.department" id="department" placeholder=""></textarea>
+      <label for="telephone">Mobiel telefoonnummer</label> <i><span style="color: gray;">(alleen gebruikt voor verzenden sms)</span></i>
+      <input class="form-control" ng-model="vm.customerData.privateData.telephone" id="telephone" placeholder="Telefoonnummer +316xxxxxxxx">
+	  <span style="color: gray;"><i>Mobiel telefoonnummer dient te beginnen met +316xxxxxxxx. Bijvoorbeeld <b>+31612345678</b>.</i></span>
     </div>
     <div class="form-group">
-      <label for="message">Question</label>
-      <textarea class="form-control" ng-model="vm.chosenCustomerDetail.question" id="question" placeholder="question"></textarea>
+      <label for="message">Evenement</label>
+      <input class="form-control" ng-model="vm.customerData.department" id="department" placeholder="">
     </div>
+    <div class="form-group">
+      <label for="message">Klantvraag</label>
+      <textarea class="form-control" ng-model="vm.customerData.question" id="question" placeholder="question"></textarea>
+    </div>
+    <button ng-disabled="vm.busy || !vm.customerData.department || !vm.customerData.question || !vm.customerData.privateData.telephone" ng-click="vm.sendFeedback(true)" type="submit" class="btn btn-primary">Feedback verzoek versturen aan klant</button>	
+	<span style="color: green; font-size: large"> {{vm.resultData}}</span>
+	<br>
+	<br>
+	<br>
+	<br>
+	<!--
+	
     <div class="checkbox">
       <label>
-        <input type="checkbox" checked>Request Feedback from customer
+        <input type="checkbox" checked>Feedback verzoek versturen aan klant
       </label>
     </div>
 
@@ -33,8 +61,10 @@
       <label for="message">Message</label>
       <textarea class="form-control" ng-model="vm.smsMessage.message" id="message" placeholder="Message"></textarea>
     </div>
-    <button ng-disabled="!vm.chosenCustomerDetail.customerObject" ng-click="vm.sendFeedback(false)" type="submit" class="btn btn-default">Request feedback</button>
-    <button ng-disabled="!vm.chosenCustomerDetail.customerObject" ng-click="vm.sendSms()" type="submit" class="btn btn-default">Send SMS</button>
-    <button ng-disabled="!vm.chosenCustomerDetail.customerObject" ng-click="vm.sendFeedback(true)" type="submit" class="btn btn-primary">Request feedback and send SMS</button>
+    <button ng-disabled="!vm.customerData.department" ng-click="vm.sendFeedback(false)" type="submit" class="btn btn-default">Request feedback</button>
+    <button ng-disabled="!vm.smsMessage.message || !vm.customerData.privateData.telephone" ng-click="vm.sendSms(false)" type="submit" class="btn btn-default">Send SMS</button>
+    <button ng-disabled="!vm.customerData.department" ng-click="vm.sendFeedback(true)" type="submit" class="btn btn-primary">Request feedback and send SMS</button>
+
+	//-->
   </form>
 </div>
