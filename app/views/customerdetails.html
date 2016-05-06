@@ -5,8 +5,8 @@
 <div class="container-fluid">
   <form>
     <div class="form-group">
-      <label for="telephone">Klantnaam</label> <i><span style="color: gray;">(alleen gebruikt voor verzenden sms)</span></i>
-      <input class="form-control" ng-model="vm.customerData.privateData.name" id="name" placeholder="Voornaam">
+      <label for="telephone">Klantnaam</label> <i><span style="color: gray;">(alleen voor verzenden sms)</span></i>
+      <input class="form-control" ng-model="vm.customerData.privateData.name" id="name" placeholder="Voornaam" maxlength="11">
     </div>
     <div class="form-group">
       <label for="telephone">Geslacht</label>
@@ -31,7 +31,7 @@
       <!--<input class="form-control" ng-model="vm.customerData.ageBracket" id="age" placeholder="20-30">-->
     </div>
     <div class="form-group">
-      <label for="telephone">Mobiel telefoonnummer</label> <i><span style="color: gray;">(alleen gebruikt voor verzenden sms)</span></i>
+      <label for="telephone">Mobiel telefoonnummer</label> <i><span style="color: gray;">(alleen voor verzenden sms)</span></i>
       <input class="form-control" ng-model="vm.customerData.privateData.telephone" id="telephone" placeholder="Telefoonnummer +316xxxxxxxx">
 	  <span style="color: gray;"><i>Mobiel telefoonnummer dient te beginnen met +316xxxxxxxx. Bijvoorbeeld <b>+31612345678</b>.</i></span>
     </div>

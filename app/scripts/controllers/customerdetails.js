@@ -11,12 +11,12 @@ angular.module('inghackathonclientApp')
 	function initData(){
 		// customer data
 		vm.customerData = {};
-		vm.customerData.department = "Klantfeedback";
-		vm.customerData.question = "Je hebt een ING kantoor bezocht";	
+		vm.customerData.department = "KantoorAmstelveen";
+		vm.customerData.question = "Je hebt net ING kantoor Amstelveen bezocht";	
 		vm.customerData.gender = "";
 		vm.customerData.ageBracket = "";
 		vm.customerData.privateData = {};
-		vm.customerData.privateData.name = "";
+		vm.customerData.privateData.name = "Klant";
 		vm.customerData.privateData.telephone = "";
 
 		vm.smsMessage = {
@@ -46,7 +46,7 @@ angular.module('inghackathonclientApp')
 	  
       feedbackFactory.save(newCustomer).$promise.then(function(feedbackResponse) {
         console.log(feedbackResponse);
-        vm.smsMessage.message = "Hallo " + customerName + ", je hebt een ING kantoor bezocht. Geef je feedback via: " + feedbackResponse.link;
+        vm.smsMessage.message = "Beste " + customerName + ", je hebt ING kantoor Amstelveen bezocht. Geef je feedback via: " + feedbackResponse.link;
 		
         if(alsoSendSms) {
           vm.sendSms(true);
