@@ -35,8 +35,8 @@ angular.module('inghackathonclientApp')
 	  
       var newCustomer = {};
 
-      newCustomer.customerId = vm.customerData.gender;
-      newCustomer.to = vm.customerData.ageBracket;
+      newCustomer.customerId = vm.customerData.gender + ';' + vm.customerData.ageBracket;
+      newCustomer.to = vm.customerData.gender + ';' + vm.customerData.ageBracket;
       newCustomer.departmentId = vm.customerData.department;
       newCustomer.question = vm.customerData.question;
 
